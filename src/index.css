@@ -1,0 +1,4 @@
+body, #app, #app>div {
+    height: 100%;
+    background-color: bisque;
+}
