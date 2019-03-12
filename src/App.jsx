@@ -2,8 +2,13 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 import { Router, Route, Switch } from 'react-router-dom';
-import Navigbar from "./component/navbar/navbar";
 import history from "./component/history";
+
+
+
+import Navigbar from "./component/navbar/navbar";
+import accueil from "./component/accueil/accueil";
+
 
 class App extends Component {
 
@@ -33,7 +38,8 @@ class App extends Component {
             <div>
                 <Navigbar/>
                 <Switch>
-                    
+                    <Route exact path="/" component={accueil} />
+                    <Route path="/accueil" component={accueil} />
                 </Switch>
                 </div>
             </Router>
