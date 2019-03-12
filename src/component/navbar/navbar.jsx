@@ -1,36 +1,51 @@
 import './navbar.css';
 import React, { Component } from 'react';
-import {Nav, Navbar, Form, Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
-class Navigbar extends Component {
 
-  constructor(props) {
-    super(props);
-  }
+const styles = {
+  root: {
+    flexGrow: 1,
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginLeft: 0,
+    marginRight: 0,
+  },
+};
 
-  render() {
-
-    return (
-      
-    <>
-      <Navbar bg="dark" variant="dark">
-        <Navbar.Brand href="#home">DB.JAAP</Navbar.Brand>
-        <Nav className="mr-auto">
-
-          <li className="acceuil"><Link to="/accueil">Acceuil</Link></li>
-
-        </Nav>
-
-          <Form inline>
-            <Button>Connexion</Button>
-          </Form>
-
-      </Navbar>
-    </>
-        
-
-    );
-  }
+function ButtonAppBar(props) {
+  const { classes } = props;
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" color="inherit" className={classes.grow}>
+            Accueil
+            Voyages
+          </Typography>
+          <Button color="inherit">Login</Button>
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
 }
-export default Navigbar;
+
+ButtonAppBar.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(ButtonAppBar);
