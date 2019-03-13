@@ -17,26 +17,30 @@ class Navigbar extends Component {
       error: null,
       initialTab: null,
       recoverPasswordSuccess: null,
+      lblerror_login: "Fatal error",
+      lblerror_register : "Fatal error"
     };
   }
 
   onLogin() {
+    let self = this;
     this.startLoading();
     const email = document.querySelector('#email').value;
     const password = document.querySelector('#password').value;
 
     if (!email || !password) {
       this.setState({
-        error: true
+        error: true,
+        lblerror_login:"Veuillez renseigner Email et mot de passe."
       })
     }
     else{
       axios({
         method: 'post',
-        url: 'http://localhost:4000/auth',
+        url: 'http://localhost:8080/mep_serveur/ServletAuth',
         headers: {
             'crossDomain': true,  //For cors errors 
-            'Content-Type': 'application/json'
+            'Content-Type': 'text/plain'
         },
         data: {
             login: email,
@@ -45,7 +49,8 @@ class Navigbar extends Component {
         }).then(res => {
             if (res.data === "failed"){
               this.setState({
-                error: true
+                error: true,
+                lblerror_login:"Identifiant ou mot de passe incorrecte."
               })
             }
             else {
@@ -53,20 +58,26 @@ class Navigbar extends Component {
               this.onLoginSuccess(res.data.username);
               this.props.updateuser(res.data.id); //déclenche la méthode updateuser dans le parent (app.js)
             }
-        });
+        }).catch(function(err) {
+          self.setState({
+            error: true,
+            lblerror_login:"Erreur réseau("+err+")"
+          })
+      });
     }
     this.finishLoading();
   }
 
   onRegister() {
-
+    let self = this;
     const login = document.querySelector('#login').value;
     const email = document.querySelector('#email').value;
     const password = document.querySelector('#password').value;
 
     if (!login || !email || !password) {
       this.setState({
-        error: true
+        error: true,
+        lblerror_register: "Veuillez remplir tout les champs."
       })
     } else {
 
@@ -88,11 +99,15 @@ class Navigbar extends Component {
                 error: true
               })
             }
-            
             else {
               this.closeModal();
             }  
-        });
+        }).catch(function(err) {
+          self.setState({
+            error: true,
+            lblerror_register:"Erreur réseau("+err+")"
+          })
+      });
     }
   }
 
@@ -202,7 +217,15 @@ class Navigbar extends Component {
       initialTab={this.state.initialTab}
       error={this.state.error}
       tabs={{
-        afterChange: this.afterTabsChange.bind(this)
+        afterChange: this.afterTabsChange.bind(this),
+        loginLabel : "Connection",
+        registerLabel : "Inscription"
+      }}
+      loginError={{
+        label : this.state.lblerror_login
+      }}
+      registerError={{
+        label: this.state.lblerror_register
       }}
       startLoading={this.startLoading.bind(this)}
       finishLoading={this.finishLoading.bind(this)}
@@ -245,18 +268,18 @@ class Navigbar extends Component {
             inputClass: 'RML-form-control',
             id: 'password',
             name: 'password',
-            placeholder: 'Password',
+            placeholder: 'Mot de passe',
           }
         ],
         registerInputs: [
           {
             containerClass: 'RML-form-group',
-            label: 'Prénom',
+            label: 'Login',
             type: 'text',
             inputClass: 'RML-form-control',
             id: 'login',
             name: 'login',
-            placeholder: 'Nickname',
+            placeholder: 'Login',
           },
           {
             containerClass: 'RML-form-group',
@@ -274,7 +297,7 @@ class Navigbar extends Component {
             inputClass: 'RML-form-control',
             id: 'password',
             name: 'password',
-            placeholder: 'Password',
+            placeholder: 'Mot de passe',
           }
         ],
         recoverPasswordInputs: [
