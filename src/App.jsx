@@ -4,8 +4,6 @@ import './App.css';
 import { Router, Route, Switch } from 'react-router-dom';
 import history from "./component/history";
 
-
-
 import Navigbar from "./component/navbar/navbar";
 import accueil from "./component/accueil/accueil";
 
