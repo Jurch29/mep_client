@@ -9,6 +9,10 @@ import Accueil from "./component/accueil/accueil";
 import Voyages from "./component/voyages/voyages";
 import VoyageDetail from "./component/VoyageDetail/VoyageDetail";
 import NotFound from "./component/NotFound/NotFound";
+import Historique from "./component/historique/historique";
+import Panier from "./component/panier/panier";
+
+import config from "./param";
 
 class App extends Component {
 
@@ -32,16 +36,27 @@ class App extends Component {
         
     }*/
 
+    
     render() {
+        let loggedIn = sessionStorage.getItem("login");
+        let url = config.URL_SERV;
         return (
             <Router history={history}>
             <div>
                 <Navigbar/>
+
+
                 <Switch>
-                    <Route exact path="/" component={Accueil} />
-                    <Route path="/accueil" component={Accueil} />
-                    <Route path="/voyages" component={Voyages} />
-                    <Route path="/voyagedetail" component={VoyageDetail} />
+                    <Route exact path={url} component={Accueil} />
+                    <Route path={url + '*'} component={Accueil} />
+                    <Route path={url + 'index'} component={Accueil} />
+                    <Route path={url + 'voyages'} component={Voyages} />
+                    <Route path={url + 'voyagedetail'} component={VoyageDetail} />
+                    {loggedIn != null &&
+                    <div>
+                    <Route path={url + 'historique'} component={Historique} />
+                    <Route path={url + 'panier'} component={Panier} />
+                    </div>}
                     <Route component={NotFound} />
                 </Switch>
                 </div>

@@ -4,6 +4,7 @@ import {Nav, Navbar, Form, Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReactModalLogin from "react-modal-login";
 import axios from 'axios';
+import config from "../../param";
 
 class Navigbar extends Component {
 
@@ -189,13 +190,14 @@ class Navigbar extends Component {
     this.setState({
       loggedIn: null,
     })
-    sessionStorage.setItem("login", null);
+    sessionStorage.removeItem("login");
   }
 
   render() {
 
     const loggedIn = this.state.loggedIn;
     const isLoading = this.state.loading;
+    let url = config.URL_SERV;
 
     return (
       
@@ -204,8 +206,14 @@ class Navigbar extends Component {
         <Navbar.Brand href="https://fr.wikipedia.org/wiki/Bretagne">Bec’h dei !</Navbar.Brand>
         <Nav className="mr-auto">
 
-          <li className="acceuil"><Link to="/accueil">Accueil</Link></li>
-          <li><Link to="/voyages">Voyages</Link></li>
+          <li className="limargin"><Link to={url + 'index'}>Accueil</Link></li>
+          <li className="limargin"><Link to={url + 'voyages'}>Voyages</Link></li>
+          {loggedIn != null &&
+          <div>
+            <li className="limargin"><Link to={url + 'historique'}>Historique</Link></li>
+            <li><Link to={url + 'panier'}>Mon panier</Link></li>
+          </div>
+          }
 
         </Nav>
 
