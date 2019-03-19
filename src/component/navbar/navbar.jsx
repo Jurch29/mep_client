@@ -12,7 +12,7 @@ class Navigbar extends Component {
 
     this.state = {
       showModal: false,
-      loggedIn: null,
+      loggedIn: sessionStorage.getItem("login"),
       loading: false,
       error: null,
       initialTab: null,
@@ -40,23 +40,26 @@ class Navigbar extends Component {
         url: 'http://localhost:8080/mep_serveur/ServletAuth',
         headers: {
             'crossDomain': true,  //For cors errors 
-            'Content-Type': 'text/plain'
+            'Content-Type': 'application/json'
         },
         data: {
             login: email,
             mdp: password
         }
         }).then(res => {
-            if (res.data === "failed"){
+
+            console.log(res);
+
+            if (res.data === -1){
               this.setState({
                 error: true,
                 lblerror_login:"Identifiant ou mot de passe incorrecte."
               })
             }
             else {
-              console.log(res.data);
-              this.onLoginSuccess(res.data.username);
-              this.props.updateuser(res.data.id); //déclenche la méthode updateuser dans le parent (app.js)
+              this.onLoginSuccess(res.data);
+              sessionStorage.setItem("login", res.data);
+              //this.props.updateuser(res.data.id); //déclenche la méthode updateuser dans le parent (app.js)
             }
         }).catch(function(err) {
           self.setState({
@@ -83,20 +86,22 @@ class Navigbar extends Component {
 
       axios({
         method: 'post',
-        url: 'http://localhost:4000/register',
+        url: 'http://localhost:8080/mep_serveur/ServletRegister',
         headers: {
             'crossDomain': true,  //For cors errors 
             'Content-Type': 'application/json'
         },
         data: {
-            login: email,
+            name: login,
             mdp: password,
-            prenom: login
+            mail: email
         }
         }).then(res => {
-            if (res.data === "failed"){
+            console.log(res.data);
+            if (res.data === "exist"){
               this.setState({
-                error: true
+                error: true,
+                lblerror_register:"Un utilisateur a deja cette adresse mail."
               })
             }
             else {
@@ -180,6 +185,13 @@ class Navigbar extends Component {
     });
   }
 
+  deconnexion(){
+    this.setState({
+      loggedIn: null,
+    })
+    sessionStorage.setItem("login", null);
+  }
+
   render() {
 
     const loggedIn = this.state.loggedIn;
@@ -189,17 +201,18 @@ class Navigbar extends Component {
       
      <>
       <Navbar bg="dark" variant="dark">
-        <Navbar.Brand href="#home">DB.JAAP</Navbar.Brand>
+        <Navbar.Brand href="https://fr.wikipedia.org/wiki/Bretagne">Bec’h dei !</Navbar.Brand>
         <Nav className="mr-auto">
 
-          <li className="acceuil"><Link to="/accueil">Acceuil</Link></li>
-          <li><Link to="/apropos">A propos</Link></li>
+          <li className="acceuil"><Link to="/accueil">Accueil</Link></li>
+          <li><Link to="/voyages">Voyages</Link></li>
 
         </Nav>
 
         {loggedIn ? (
           <div className="login">
-            {loggedIn}
+            <div className="log">{loggedIn}</div>
+            <Button onClick={() => this.deconnexion()} variant="outline-info">Deconnexion</Button>
           </div>
         ) : (
           <Form inline>

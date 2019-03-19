@@ -1,20 +1,29 @@
 import React, { Component } from 'react';
 import './accueil.css';
 
-class accueil extends Component {
+import Carousel from '../carousel/carousel';
 
-  constructor(props, context) {
-    super(props, context);
+class Accueil extends Component {
 
-  }
+  /*constructor() {
+    super();
+
+  }*/
 
   render() {
+
     return (
-      
-      <p>Accueil</p>
+
+      <div>
+        <br></br>
+        <h2>Bienvenue en Bretagne</h2>
+        <br></br>
+        <br></br>
+        <Carousel></Carousel>
+      </div>
 
     );
   }
 }
 
-export default accueil;
+export default Accueil;

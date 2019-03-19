@@ -1,0 +1,28 @@
+.acceuil{
+    margin-right: 15px;
+}
+
+li{
+    color: azure;
+}
+
+a:hover {
+    color: #d26414;
+    text-decoration: solid;
+}
+
+.navbar{
+    background-color: aqua;
+}
+
+.login{
+    display: inline-block;
+}
+.log{
+    float: left;
+    font-family: fantasy;
+    color: red;
+    position: relative;
+    right: 25px;
+    top: 5px;
+}

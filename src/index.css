@@ -1,4 +1,7 @@
 body, #app, #app>div {
     height: 100%;
-    background-color: bisque;
+}
+
+body{
+    background-color: rgb(255, 231, 197) !important;
 }

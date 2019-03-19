@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+//import axios from 'axios';
 import './App.css';
 import { Router, Route, Switch } from 'react-router-dom';
 import history from "./component/history";
 
 import Navigbar from "./component/navbar/navbar";
-import accueil from "./component/accueil/accueil";
-
+import Accueil from "./component/accueil/accueil";
+import Voyages from "./component/voyages/voyages";
+import VoyageDetail from "./component/VoyageDetail/VoyageDetail";
+import NotFound from "./component/NotFound/NotFound";
 
 class App extends Component {
 
-    constructor(props){
+    /*constructor(props){
         super(props)
 
-        /*
+        
         //exemple d'axios sur servlet :
         axios({
         method: 'post',
@@ -27,8 +29,8 @@ class App extends Component {
             mdp: 2
         }
         });
-        */
-    }
+        
+    }*/
 
     render() {
         return (
@@ -36,8 +38,11 @@ class App extends Component {
             <div>
                 <Navigbar/>
                 <Switch>
-                    <Route exact path="/" component={accueil} />
-                    <Route path="/accueil" component={accueil} />
+                    <Route exact path="/" component={Accueil} />
+                    <Route path="/accueil" component={Accueil} />
+                    <Route path="/voyages" component={Voyages} />
+                    <Route path="/voyagedetail" component={VoyageDetail} />
+                    <Route component={NotFound} />
                 </Switch>
                 </div>
             </Router>

@@ -1,0 +1,11 @@
+.listVoyages{
+    position: relative;
+    left: 20%;
+    top: 90px;
+}
+
+h3{
+    text-align: center;
+    color: tomato;
+    font-family: 'Courier New', Courier, monospace
+}
