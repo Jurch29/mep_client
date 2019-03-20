@@ -3,56 +3,70 @@ import './voyages.css';
 import {Col, ListGroup, Tab, Row} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import config from "../../param";
+import axios from 'axios';
 
 class Voyages extends Component {
 
-  /*constructor() {
-    super();
-  }*/
+    constructor(props) {
+        super(props);
+        this.state = {
+            trip_list : null
+        }
+    }
 
-  render() {
-    let url = config.URL_SERV + 'voyagedetail';
-    return (
-      <div>
-        <h3>Voici nos merveilleux voyages !</h3>
-        <div className="listVoyages">
-        <Tab.Container id="list-group-tabs-example" defaultActiveKey="#link1">
-          <Row>
-            <Col sm={4}>
-              <ListGroup>
-                <Link to={{ pathname: url, state: { title: 'Rennes', caption: "87", price : 50 } }}>
-                <ListGroup.Item>
-                  Rennes
-                </ListGroup.Item>
-                </Link>
+    componentWillMount() {
+        console.log('getting trip list');
+        axios({
+            method : 'post',
+            headers : {
+                'Access-Control-Allow-Origin' : '*',
+                'cross-domain' : true
+            },
+            url : 'http://localhost:8080/mep_serveur/MyServlet7'
+        })
+        .then(result => {
+            console.log('trip_list ok');
+            console.log(result);
+            let url = config.URL_SERV + 'voyagedetail';
+            let data = [];
+            for(let i = 0; i < result.data.length; i++) {
+                data[i] =
+                    <Link to={{ pathname: url, state: { trip_id : result.data[i].trip_id } }}>
+                        <ListGroup.Item>
+                        {result.data[i].trip_name}
+                        </ListGroup.Item>
+                    </Link>
+            }
+            this.setState({
+                trip_list : data
+            });
+        })
+        .catch(function(error) {
+            console.log('trip_list ko');
+            console.log(error);
+        });
+    }
 
-                <Link to={{ pathname: url, state: { title: 'Brest', caption: "Maritime, moderne et dynamique… Brest est bien plus que ce que vous imaginez ! En perpétuel mouvement, la métropole dégage un charme indéniable. Authentique et sympathique, vous allez apprécier l’atmosphère simple des lieux tout en profitant de la multitude d’activités possibles ! Venez découvrir cette métropole du bout du monde tournée vers l’humain autant que vers l’avenir. ", price : 88 } }}>
-                <ListGroup.Item>
-                  Brest
-                </ListGroup.Item>
-                </Link>
+    render() {
+        return (
+            <div>
+                <h3>Voici nos merveilleux voyages !</h3>
+                <div className="listVoyages">
+                    <Tab.Container id="list-group-tabs-example" defaultActiveKey="#link1">
+                        <Row>
+                            <Col sm={4}>
+                                <ListGroup>
+                                    {this.state.trip_list}
+                                </ListGroup>
+                            </Col>
+                        </Row>
+                    </Tab.Container>
+                </div>
 
-                <Link to={{ pathname: url, state: { title: 'Lorient', caption: "89", price : 888} }}>
-                <ListGroup.Item>
-                  Lorient
-                </ListGroup.Item>
-                </Link>
+            </div>
+        );
+    }
 
-                <Link to={{ pathname: url, state: { title: 'Nantes', caption: "90", price : 477} }}>
-                <ListGroup.Item>
-                  Nantes
-                </ListGroup.Item>
-                </Link>
-              </ListGroup>
-            </Col>
-            
-          </Row>
-        </Tab.Container>
-        </div>
-
-      </div>
-    );
-  }
 }
 
 export default Voyages;

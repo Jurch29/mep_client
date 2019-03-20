@@ -60,6 +60,7 @@ class Navigbar extends Component {
             else {
               this.onLoginSuccess(res.data);
               sessionStorage.setItem("login", res.data);
+              sessionStorage.setItem("email", email);
               //this.props.updateuser(res.data.id); //déclenche la méthode updateuser dans le parent (app.js)
             }
         }).catch(function(err) {
