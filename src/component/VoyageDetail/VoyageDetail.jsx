@@ -17,6 +17,7 @@ class VoyageDetail extends Component {
         </div>
         <div className="descr">
         <br></br>
+        <img src="./images/tdelegende.jpg" />
         <br></br>
         <p className="caption">{caption}</p>
         <p className="price">Prix : {price} €</p>
