@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './historique.css';
 import {Table} from 'react-bootstrap';
 import axios from 'axios';
+import Comment from '../comment/comment';
 
 class Historique extends Component {
 
@@ -10,8 +11,7 @@ class Historique extends Component {
         this.state = {
             user_id : null,
             user_orders : null,
-            user_comments : null,
-            user_photos : []
+            user_comments : null
         }
     }
 
@@ -70,45 +70,16 @@ class Historique extends Component {
                 url : 'http://localhost:8080/mep_serveur/ServletUserComments',
                 data : result.data[0].user_id
             })
-            .then(async result_1 => {
+            .then(async result => {
                 console.log('comments ok');
                 console.log(result);
-                let data_1 = [];
-                for(let i = 0; i < result_1.data.length; i++) {
-                    /*let data_2 = [];
-                    axios({
-                        method : 'post',
-                        headers : {
-                            'Access-Control-Allow-Origin' : '*',
-                            'cross-domain' : true
-                        },
-                        url : 'http://localhost:8080/mep_serveur/ServletCommentPhotos',
-                        data : result_1.data[i].comment_id
-                    })
-                    .then(result_2 => {
-                        console.log('comment_photos_list ok');
-                        console.log(result_2);
-                        for(let j = 0; j < result_2.data.length; j++) {
-                            let src = "./images/" + result_2.data[j].photo_relative_name;
-                            data_2[j] = <img src={src} alt="result.data[j].photo_relative_name" />;
-                        }
-                        console.log(data_2);
-                    })
-                    .catch(function(error) {
-                        console.log('comment_photos_list ko');
-                        console.log(error);
-                    });*/
-                    data_1[i] =
-                        <div>
-                            <p>{result_1.data[i].comment_date}</p>
-                            <p className="ttc">{result_1.data[i].trip_name}</p>
-                            <p>{result_1.data[i].comment_content}</p>
-                        </div>;
+                let data = [];
+                for(let i = 0; i < result.data.length; i++) {
+                    data[i] = <div><br /><Comment display='historical' comment_id={result.data[i].comment_id} comment_trip_name={result.data[i].trip_name} comment_content={result.data[i].comment_content} comment_date={result.data[i].comment_date} /></div>;
                 }
                 this.setState({
-                    user_comments : data_1
+                    user_comments : data
                 });
-                            console.log(this.state.user_photos);
             })
             .catch(function(error) {
                 console.log('comments ko');

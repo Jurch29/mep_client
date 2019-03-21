@@ -16,42 +16,37 @@ import config from "./param";
 
 class App extends Component {
 
-    /*constructor(props){
-        super(props)
+    constructor(props) {
+        super(props);
+        this.state = {
+            user_id: null
+        };
+    }
+    
+    updateuser = (id) => {
+        this.setState({ user_id: id });
+    }
 
-        
-        //exemple d'axios sur servlet :
-        axios({
-        method: 'post',
-        url: 'http://localhost:8080/MEPDWP/ServletTest',
-        headers: {
-            'crossDomain': true,  //For cors errors 
-            'Content-Type': 'application/json'
-        },
-        data: {
-            login: 5,
-            mdp: 2
-        }
-        });
-        
-    }*/
-
+    componentWillMount(){
+        this.setState({ user_id: sessionStorage.getItem("login") });
+    }
     
     render() {
-        let loggedIn = sessionStorage.getItem("login");
+        let userid = this.state.user_id;
+
         let url = config.URL_SERV;
         return (
             <Router history={history}>
             <div>
-                <Navigbar/>
-
+                <Navigbar updateuser={this.updateuser}/>
 
                 <Switch>
                     <Route exact path={url} component={Accueil} />
+                    <Route path={url + 'index.html'} component={Accueil} />
                     <Route path={url + 'index'} component={Accueil} />
                     <Route path={url + 'voyages'} component={Voyages} />
                     <Route path={url + 'voyagedetail'} component={VoyageDetail} />
-                    {loggedIn != null &&
+                    {userid != null &&
                     <div>
                     <Route path={url + 'historique'} component={Historique} />
                     <Route path={url + 'panier'} component={Panier} />
@@ -62,6 +57,7 @@ class App extends Component {
             </Router>
         );
     }
+    
 }
 
 export default App;

@@ -22,7 +22,7 @@ class Voyages extends Component {
                 'Access-Control-Allow-Origin' : '*',
                 'cross-domain' : true
             },
-            url : 'http://localhost:8080/mep_serveur/MyServlet7'
+            url : 'http://localhost:8080/mep_serveur/ServletTripsList'
         })
         .then(result => {
             console.log('trip_list ok');

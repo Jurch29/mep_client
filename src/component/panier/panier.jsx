@@ -12,6 +12,7 @@ class Panier extends Component {
             user_orders : null
         }
         this.payment = this.payment.bind(this);
+        this.remove = this.remove.bind(this);
     }
 
     componentWillMount(){
@@ -28,7 +29,7 @@ class Panier extends Component {
             console.log('user_id ok');
             console.log(result);
             this.setState({
-                user_id : result.data
+                user_id : result.data[0].user_id
             });
             axios({
                 method : 'post',
@@ -52,6 +53,7 @@ class Panier extends Component {
                                 <p className="price">Prix : {result.data[i].trip_price}</p>
                             </div>
                             <Button variant="success" onClick={() => this.payment(result.data[i].order_id)}>Payer</Button>
+                            <Button variant="danger" onClick={() => this.remove(result.data[i].order_id)}>Supprimer</Button>
                         </div>;
                 }
                 this.setState({
@@ -89,6 +91,29 @@ class Panier extends Component {
             console.log(error);
         });
         alert('Commande n°' + order_id + ' payée avec succès.');
+        this.componentWillMount();
+    }
+
+    remove(order_id){
+        axios({
+            method : 'post',
+            headers : {
+                'Access-Control-Allow-Origin' : '*',
+                'cross-domain' : true
+            },
+            url : 'http://localhost:8080/mep_serveur/ServletRemoveOrder',
+            data : order_id
+        })
+        .then(result => {
+            console.log('remove_order ok');
+            console.log(result);
+            
+        })
+        .catch(function(error) {
+            console.log('remove_order ko');
+            console.log(error);
+        });
+        alert('Commande n°' + order_id + ' supprimée avec succès.');
         this.componentWillMount();
     }
 
