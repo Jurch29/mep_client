@@ -198,6 +198,14 @@ class Navigbar extends Component {
         loggedIn: null,
         })
         sessionStorage.removeItem("login");
+        axios({
+            method: 'post',
+            url: 'http://localhost:8080/mep_serveur/ServletDisconnect',
+            headers: {
+                'crossDomain': true,  //For cors errors 
+                'Content-Type': 'application/json'
+            }
+        });
     }
 
     render() {

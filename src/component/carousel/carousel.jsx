@@ -37,12 +37,33 @@ class Carousel extends Component {
         renderItem: this._renderVideo.bind(this)
       },
       {
-        original: `${PREFIX_URL}tdelegende.jpg`,
-        thumbnail: `${PREFIX_URL}tdelegende.jpg`,
+        original: `./images/default/001.jpg`,
+        thumbnail: `./images/default/001.jpg`,
         originalClass: 'featured-slide',
         thumbnailClass: 'featured-thumb',
-        description: 'SALUT'
+        description: ''
       },
+      {
+        original: `./images/default/002.jpg`,
+        thumbnail: `./images/default/002.jpg`,
+        originalClass: 'featured-slide',
+        thumbnailClass: 'featured-thumb',
+        description: ''
+      },
+      {
+        original: `./images/default/003.jpeg`,
+        thumbnail: `./images/default/003.jpeg`,
+        originalClass: 'featured-slide',
+        thumbnailClass: 'featured-thumb',
+        description: ''
+      },
+      {
+        original: `./images/default/004.jpg`,
+        thumbnail: `./images/default/004.jpg`,
+        originalClass: 'featured-slide',
+        thumbnailClass: 'featured-thumb',
+        description: ''
+      }
     ].concat(this._getStaticImages());
   }
 

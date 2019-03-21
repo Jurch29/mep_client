@@ -46,64 +46,67 @@ class VoyageDetail extends Component {
                 trip_price : result_1.data.trip_price,
                 trip_caption : result_1.data.trip_caption,
             });
-            if(new Date(this.state.trip_starting_date).getTime() > new Date().getTime()) {
-                this.setState({
-                    commander : <Button variant="success" onClick={() => this.order()}>Commander</Button>
-                });
-            }
-            axios({
-                method : 'post',
-                headers : {
-                    'Access-Control-Allow-Origin' : '*',
-                    'cross-domain' : true
-                },
-                url : 'http://localhost:8080/mep_serveur/ServletUserId',
-                data : sessionStorage.getItem("email")
-            })
-            .then(result_2 => {
-                console.log('user_id ok');
-                console.log(result_2);
-                this.setState({
-                    user_id : result_2.data[0].user_id,
-                    order : {
-                        trip_id : this.props.location.state.trip_id,
-                        user_id : result_2.data[0].user_id
-                    }
-                });
+            if(sessionStorage.getItem("email") != null)
+            {
+                if(new Date(this.state.trip_starting_date).getTime() > new Date().getTime()) {
+                    this.setState({
+                        commander : <Button variant="success" onClick={() => this.order()}>Commander</Button>
+                    });
+                }
                 axios({
                     method : 'post',
                     headers : {
                         'Access-Control-Allow-Origin' : '*',
                         'cross-domain' : true
                     },
-                    url : 'http://localhost:8080/mep_serveur/ServletVerifyIfOrdered',
-                    data : this.state.order
+                    url : 'http://localhost:8080/mep_serveur/ServletUserId',
+                    data : sessionStorage.getItem("email")
                 })
-                .then(result_3 => {
-                    console.log('verify_ordered ok');
-                    console.log(result_3);
-                    if((new Date(this.state.trip_ending_date).getTime() < new Date().getTime()) && sessionStorage.getItem("login") != null && result_3.data[0] != null) {
-                        this.setState({
-                            post_comment : 
-                                <div>
-                                    <textarea id='comment_content' ></textarea>
-                                    <br />
-                                    <input id='comment_submit' type='button' onClick={this.post_comment} value='Ajouter Commentaire' />
-                                    <br />
-                                    <input id='comment_files' type='file' multiple accept='image/jpeg, image/png image/gif' />
-                                </div>
-                        });
-                    }
+                .then(result_2 => {
+                    console.log('user_id ok');
+                    console.log(result_2);
+                    this.setState({
+                        user_id : result_2.data[0].user_id,
+                        order : {
+                            trip_id : this.props.location.state.trip_id,
+                            user_id : result_2.data[0].user_id
+                        }
+                    });
+                    axios({
+                        method : 'post',
+                        headers : {
+                            'Access-Control-Allow-Origin' : '*',
+                            'cross-domain' : true
+                        },
+                        url : 'http://localhost:8080/mep_serveur/ServletVerifyIfOrdered',
+                        data : this.state.order
+                    })
+                    .then(result_3 => {
+                        console.log('verify_ordered ok');
+                        console.log(result_3);
+                        if((new Date(this.state.trip_ending_date).getTime() < new Date().getTime()) && sessionStorage.getItem("login") != null && result_3.data[0] != null) {
+                            this.setState({
+                                post_comment : 
+                                    <div>
+                                        <textarea id='comment_content' ></textarea>
+                                        <br />
+                                        <input id='comment_submit' type='button' onClick={this.post_comment} value='Ajouter Commentaire' />
+                                        <br />
+                                        <input id='comment_files' type='file' multiple accept='image/jpeg, image/png image/gif' />
+                                    </div>
+                            });
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log('verify_ordered ko');
+                        console.log(error);
+                    });
                 })
                 .catch(function(error) {
-                    console.log('verify_ordered ko');
+                    console.log('user_id ko');
                     console.log(error);
                 });
-            })
-            .catch(function(error) {
-                console.log('user_id ko');
-                console.log(error);
-            });
+            }
         })
         .catch(function(error) {
             console.log('select_trip ko');
@@ -208,9 +211,10 @@ class VoyageDetail extends Component {
                     url : 'http://localhost:8080/mep_serveur/ServletSaveComment',
                     data : this.state.comment
                 })
-                .then(function(result) {
+                .then(result_3 => {
                     console.log('comment ok');
-                    console.log(result);
+                    this.componentWillMount();
+                    console.log(result_3);
                 })
                 .catch(function(error) {
                     console.log('comment ko');
@@ -226,7 +230,6 @@ class VoyageDetail extends Component {
             console.log('photo ko');
             console.log(error);
         });
-        this.componentWillMount();
     }
 
     order() {
