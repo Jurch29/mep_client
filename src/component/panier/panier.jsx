@@ -26,8 +26,6 @@ class Panier extends Component {
             data : sessionStorage.getItem("email")
         })
         .then(result => {
-            console.log('user_id ok');
-            console.log(result);
             this.setState({
                 user_id : result.data[0].user_id
             });
@@ -41,8 +39,6 @@ class Panier extends Component {
                 data : result.data[0].user_id
             })
             .then(result => {
-                console.log('unpaid_orders ok');
-                console.log(result);
                 let data = [];
                 for(let i = 0; i < result.data.length; i++) {
                     data[i] =
@@ -81,11 +77,6 @@ class Panier extends Component {
             url : 'http://localhost:8080/mep_serveur/ServletPayOrder',
             data : order_id
         })
-        .then(result => {
-            console.log('pay_order ok');
-            console.log(result);
-            
-        })
         .catch(function(error) {
             console.log('pay_order ko');
             console.log(error);
@@ -103,11 +94,6 @@ class Panier extends Component {
             },
             url : 'http://localhost:8080/mep_serveur/ServletRemoveOrder',
             data : order_id
-        })
-        .then(result => {
-            console.log('remove_order ok');
-            console.log(result);
-            
         })
         .catch(function(error) {
             console.log('remove_order ko');

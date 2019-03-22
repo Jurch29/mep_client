@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import ReactModalLogin from "react-modal-login";
 import axios from 'axios';
 import config from "../../param";
+import history from "../history";
 
 class Navigbar extends Component {
 
@@ -48,9 +49,6 @@ class Navigbar extends Component {
                 mdp: password
             }
             }).then(res => {
-
-                console.log(res);
-
                 if (res.data === -1){
                 this.setState({
                     error: true,
@@ -99,7 +97,6 @@ class Navigbar extends Component {
                 mail: email
             }
             }).then(res => {
-                console.log(res.data);
                 if (res.data === "exist"){
                 this.setState({
                     error: true,
@@ -205,7 +202,9 @@ class Navigbar extends Component {
                 'crossDomain': true,  //For cors errors 
                 'Content-Type': 'application/json'
             }
-        });
+        }).then((response) => {
+            history.push('/mep_serveur/index.html');
+          });
     }
 
     render() {

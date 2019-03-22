@@ -26,8 +26,6 @@ class Historique extends Component {
             data : sessionStorage.getItem("email")
         })
         .then(result => {
-            console.log('user_id ok');
-            console.log(result);
             this.setState({
                 user_id : result.data
             });
@@ -41,8 +39,6 @@ class Historique extends Component {
                 data : result.data[0].user_id
             })
             .then(result => {
-                console.log('paid_orders ok');
-                console.log(result);
                 let data = [];
                 for(let i = 0; i < result.data.length; i++) {
                     data[i] =
@@ -71,8 +67,6 @@ class Historique extends Component {
                 data : result.data[0].user_id
             })
             .then(async result => {
-                console.log('comments ok');
-                console.log(result);
                 let data = [];
                 for(let i = 0; i < result.data.length; i++) {
                     data[i] = <div><br /><Comment display='historical' comment_id={result.data[i].comment_id} comment_trip_name={result.data[i].trip_name} comment_content={result.data[i].comment_content} comment_date={result.data[i].comment_date} /></div>;

@@ -15,7 +15,6 @@ class Voyages extends Component {
     }
 
     componentWillMount() {
-        console.log('getting trip list');
         axios({
             method : 'post',
             headers : {
@@ -25,8 +24,6 @@ class Voyages extends Component {
             url : 'http://localhost:8080/mep_serveur/ServletTripsList'
         })
         .then(result => {
-            console.log('trip_list ok');
-            console.log(result);
             let url = config.URL_SERV + 'voyagedetail';
             let data = [];
             for(let i = 0; i < result.data.length; i++) {

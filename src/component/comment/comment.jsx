@@ -14,7 +14,6 @@ class Comment extends Component {
 
     componentWillMount() {
         if(this.props.display === 'historical') {
-            console.log('display_historical');
             this.setState({
                 comment_display :
                     <div>
@@ -23,7 +22,6 @@ class Comment extends Component {
                     </div>
             });
         } else if(this.props.display === 'trip') {
-            console.log('display_trip');
             this.setState({
                 comment_display :
                     <div>
@@ -42,14 +40,12 @@ class Comment extends Component {
             data : this.props.comment_id
         })
         .then(result => {
-            console.log('comment_photos_list ok');
-            console.log(result);
             let data = [];
             for(let i = 0; i < result.data.length; i++) {
                 let src = "./images/" + result.data[i].photo_relative_name;
                 data[i] = <img className='comment-images' src={src} alt="result.data[i].photo_relative_name" />;
             }
-            console.log(data);
+
             this.setState({
                 comment_photos : data
             });
